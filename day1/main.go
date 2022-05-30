@@ -6,6 +6,7 @@
 package main
 
 import (
+	"container/list"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -28,6 +29,7 @@ func main() {
 	}
 
 	part1(data)
+	part2(data)
 }
 
 func part1(data []byte) {
@@ -46,4 +48,33 @@ func part1(data []byte) {
 		previousMeasurement = currentMeasurement
 	}
 	fmt.Printf("Part 1: Number of increases: %d\n", numIncreases)
+}
+
+func part2(data []byte) {
+	// The window size we're using is 4 because we're comparing two 3-element windows. That requires
+	// 4 elements in total.
+	const windowSize = 4
+	var window = list.New()
+	numIncreases := 0
+
+	for lineNumber, line := range strings.Split(string(data), "\n") {
+		currentMeasurement, err := strconv.Atoi(line)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Could not convert value to integer on line %d: %s (%v)\n", lineNumber, line, err)
+			os.Exit(1)
+		}
+		window.PushFront(currentMeasurement)
+		if window.Len() < windowSize {
+			// We don't have enough data to compare two windows yet.
+			continue
+		}
+		if window.Len() > windowSize {
+			window.Remove(window.Back())
+		}
+		if currentMeasurement > window.Back().Value.(int) {
+			numIncreases++
+		}
+
+	}
+	fmt.Printf("Part 2: Number of increases: %d\n", numIncreases)
 }
