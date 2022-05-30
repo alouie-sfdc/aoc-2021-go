@@ -72,6 +72,8 @@ func part2(data []byte) {
 			window.Remove(window.Back())
 		}
 		if currentMeasurement > window.Back().Value.(int) {
+			// We only have to compare the front of the list with the back of the list, because the two middle
+			// values are common to both of the 3-element windows that we're comparing.
 			numIncreases++
 		}
 
