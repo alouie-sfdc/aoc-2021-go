@@ -27,6 +27,10 @@ func main() {
 		os.Exit(1)
 	}
 
+	part1(data)
+}
+
+func part1(data []byte) {
 	previousMeasurement := EmptyMeasurementSentinelValue
 	numIncreases := 0
 
@@ -41,5 +45,5 @@ func main() {
 		}
 		previousMeasurement = currentMeasurement
 	}
-	fmt.Printf("Number of increases: %d\n", numIncreases)
+	fmt.Printf("Part 1: Number of increases: %d\n", numIncreases)
 }
