@@ -13,7 +13,7 @@ import (
 	"strings"
 )
 
-const EMPTY_MEASUREMENT_SENTINEL_VALUE = -1
+const EmptyMeasurementSentinelValue = -1
 
 func main() {
 	if len(os.Args) != 2 {
@@ -27,7 +27,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	previousMeasurement := EMPTY_MEASUREMENT_SENTINEL_VALUE
+	previousMeasurement := EmptyMeasurementSentinelValue
 	numIncreases := 0
 
 	for lineNumber, line := range strings.Split(string(data), "\n") {
@@ -36,7 +36,7 @@ func main() {
 			fmt.Fprintf(os.Stderr, "Could not convert value to integer on line %d: %s (%v)\n", lineNumber, line, err)
 			os.Exit(1)
 		}
-		if currentMeasurement > previousMeasurement && previousMeasurement != EMPTY_MEASUREMENT_SENTINEL_VALUE {
+		if currentMeasurement > previousMeasurement && previousMeasurement != EmptyMeasurementSentinelValue {
 			numIncreases += 1
 		}
 		previousMeasurement = currentMeasurement
