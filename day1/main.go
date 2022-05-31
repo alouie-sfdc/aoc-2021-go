@@ -14,8 +14,6 @@ import (
 	"strings"
 )
 
-const EmptyMeasurementSentinelValue = -1
-
 func main() {
 	if len(os.Args) != 2 {
 		fmt.Fprintf(os.Stderr, "Usage: main.go FILENAME\n")
@@ -33,7 +31,8 @@ func main() {
 }
 
 func part1(data []byte) {
-	previousMeasurement := EmptyMeasurementSentinelValue
+	firstTime := true
+	previousMeasurement := 0
 	numIncreases := 0
 
 	for lineNumber, line := range strings.Split(string(data), "\n") {
@@ -42,7 +41,9 @@ func part1(data []byte) {
 			fmt.Fprintf(os.Stderr, "Could not convert value to integer on line %d: %s (%v)\n", lineNumber, line, err)
 			os.Exit(1)
 		}
-		if currentMeasurement > previousMeasurement && previousMeasurement != EmptyMeasurementSentinelValue {
+		if firstTime {
+			firstTime = false
+		} else if currentMeasurement > previousMeasurement {
 			numIncreases += 1
 		}
 		previousMeasurement = currentMeasurement
